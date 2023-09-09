@@ -1,41 +1,16 @@
 import PropTypes from 'prop-types';
-import { Component } from 'react';
 
 import { ModalBackdrop, ModalStyles } from './Modal.styled';
 
-export default class Modal extends Component {
-  componentDidMount() {
-    window.addEventListener('keydown', this.handleKeyDown);
-  }
-
-  componentWillUnmount() {
-    window.removeEventListener('keydown', this.handleKeyDown);
-  }
-
-  handleKeyDown = evt => {
-    if (evt.code === 'Escape') {
-      this.props.onClose();
-    }
-  };
-
-  onClickBackdrop = evt => {
-    if (evt.currentTarget === evt.target) {
-      this.props.onClose();
-    }
-  };
-
-  render() {
-    const { imageUrl, altText } = this.props;
-    return (
-      <ModalBackdrop onClick={this.onClickBackdrop}>
-        <ModalStyles>
-          <img src={imageUrl} alt={altText} />
-        </ModalStyles>
-      </ModalBackdrop>
-    );
-  }
+export default function Modal({ onClose, children }) {
+  return (
+    <ModalBackdrop onClick={onClose}>
+      <ModalStyles>{children}</ModalStyles>
+    </ModalBackdrop>
+  );
 }
 
 Modal.propTypes = {
+  children: PropTypes.node.isRequired,
   onClose: PropTypes.func.isRequired,
 };
